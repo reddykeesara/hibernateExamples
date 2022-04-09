@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.rag.hib.Group" table="grp">
+		<id name="groupId">
+			<generator class="native"></generator>
+		</id>
+        
+        <property name="groupName"></property>
+         
+        <set name="users" table="user_grp" cascade="save-update">
+            <key column="groupId"/>
+            <many-to-many column="userId" class="net.rag.hib.User" />
+        </set>
+    </class> 
+</hibernate-mapping>

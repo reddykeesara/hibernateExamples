@@ -1,0 +1,13 @@
+@Test
+public void whenSaveCompositeIdEntity_thenOk() {
+    OrderEntryPK entryPK = new OrderEntryPK();
+    entryPK.setOrderId(1L);
+    entryPK.setProductId(30L);
+        
+    OrderEntry entry = new OrderEntry();
+    entry.setEntryId(entryPK);
+    session.save(entry);
+
+    assertThat(entry.getEntryId().getOrderId()).isEqualTo(1L);
+}
+

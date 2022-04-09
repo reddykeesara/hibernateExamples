@@ -1,0 +1,89 @@
+one to many
+------------------------------------------------
+A cart has many items
+
+Cart.java
+	@OneToMany(mappedBy = "cart")
+	Set<Item> items = new HashSet<Item>();
+Item.java	
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="cartId", nullable = false)
+	Cart cart;
+	
+save(item1);
+save(item2);
+
+item saving but not Cart with this configuration
+		Cart cart1 = new Cart();
+		Cart cart2 = new Cart();
+
+		Item item1 = new Item();
+		item1.setCart(cart1);
+		Item item2 = new Item();
+		item2.setCart(cart2);
+
+		saveItem(item1);
+		saveItem(item2);
+		
+		
+if u need to save cart
+we have to set cart to item
+item to cart
+and save(cart)
+		Cart cart1 = new Cart();
+		Cart cart2 = new Cart();
+
+		Item item1 = new Item();
+		item1.setCart(cart1);
+		Item item2 = new Item();
+		item2.setCart(cart1);
+
+		cart1.addItem(item1);
+		cart1.addItem(item2);
+		
+		saveItem(cart1);
+
+-----------------------------------------------------------
+
+UNI DIRECTIONAL
+
+Cart.java
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="cardId")
+	Set<Item> items = new HashSet<Item>();
+	
+		Cart cart1 = new Cart();
+		Item item1 = new Item();
+		Item item2 = new Item();
+		cart1.addItem(item1);
+		cart1.addItem(item2);
+		saveItem(cart1);
+		
+Hibernate: insert into cart (cartId) values (?)
+Hibernate: insert into item (itemCost, itemName, itemId) values (?, ?, ?)
+Hibernate: insert into item (itemCost, itemName, itemId) values (?, ?, ?)
+Hibernate: update item set cardId=? where itemId=?
+Hibernate: update item set cardId=? where itemId=?
+----------------------------------------------
+
+MANY TO ONE
+
+-------------------------------------------------------------------------------
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="cartId", nullable = false)
+	Cart cart;	
+
+		Cart cart1 = new Cart();
+		Cart cart2 = new Cart();
+		Item item1 = new Item();
+		item1.setCart(cart1);
+		Item item2 = new Item();
+		item2.setCart(cart2);
+		saveItem(item1);
+		saveItem(item2);
+Hibernate: insert into cart (cartId) values (?)
+Hibernate: insert into item (cartId, itemCost, itemName, itemId) values (?, ?, ?, ?)
+Hibernate: insert into cart (cartId) values (?)
+Hibernate: insert into item (cartId, itemCost, itemName, itemId) values (?, ?, ?, ?)
+
+------------------------------------------------------------------------------------------

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.rag.hib.EmployeeDetail" table="empDetail">
+		<id name="id">
+			<generator class="foreign">
+				<param name="property">employee</param>			
+			</generator>
+		</id>
+
+		<property name="city"></property>
+		<property name="sal"></property>		
+		<property name="tech"></property>
+		<one-to-one name="employee" class="net.rag.hib.Employee" constrained="true" cascade="all"></one-to-one> 
+	</class>
+
+</hibernate-mapping>  

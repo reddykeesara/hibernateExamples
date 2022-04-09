@@ -1,0 +1,191 @@
+@Entity
+
+@Table(name="STUDENT")
+@Table(name="STUDENT", schema="SCHOOL")
+public class Student {
+
+@Column(name="STUDENT_NAME", length=50, nullable=false, unique=false)
+private String name;
+
+//Sometimes, we may want to make a field non-persistent. We can use the @Transient
+// annotation to do so. It specifies that the field won't be persisted.
+
+@Transient
+private Integer age;
+
+
+In some cases, we may have to save temporal values in our table.
+For this, we have the @Temporal annotation:
+
+    @Temporal(TemporalType.DATE)
+    private Date birthDate;
+
+However, with JPA 2.2, we also have support for java.time.LocalDate, java.time.LocalTime, 
+java.time.LocalDateTime, java.time.OffsetTime and java.time.OffsetDateTime.
+---------------------------------------------------------------------------------------------
+The Enumerated Annotation
+Sometimes, we may want to persist a Java enum type.
+
+We can use the @Enumerated annotation to specify whether the enum should be persisted
+by name or by ordinal (default):
+
+public enum Gender {
+    MALE, 
+    FEMALE
+}
+
+@Entity
+@Table(name="STUDENT")
+public class Student {
+...    
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    
+-------------------------
+@OneToMany
+@Fetch(FetchMode.SELECT)
+private Set<Orders> orders;
+   
+We use @Fetch to describe how Hibernate should retrieve the property when we lookup a Customer.
+Using SELECT indicates that the property should be loaded lazily.
+This means that for the first line:
+Customer customer = customerRepository.findById(id).get();
+We won't see a join with the orders table:
+
+Hibernate: 
+    select ...from customer
+    where customer0_.id=?
+And that for the next line:
+Set<Order> orders = customer.getOrders();
+We'll see subsequent queries for the related orders:
+
+Hibernate: 
+    select ...from order
+    where order0_.customer_id=?
+The Hibernate FetchMode.SELECT generates a separate query for each Order that needs to be loaded.
+
+In our example, that gives one query to load the Customers and five additional queries to load the orders collection.
+This is known as the n + 1 select problem. Executing one query will trigger n additional queries  
+ 
+@OneToMany
+@Fetch(FetchMode.SELECT)
+@BatchSize(size=10)
+private Set<Orders> orders;
+
+Hibernate will try to load the orders collection in batches defined by the size parameter.
+
+In our example, we have just five orders so one query is enough.
+
+We'll still use the same query:
+
+Hibernate:
+    select ...from order
+    where order0_.customer_id=?
+But it will only be run once. Now we have just two queries: One to load the Customer and one to load the orders collection.
+----------------------
+FetchMode.JOIN
+While FetchMode.SELECT loads relations lazily, FetchMode.JOIN loads them eagerly, say via a join:
+
+@OneToMany
+@Fetch(FetchMode.JOIN)
+private Set<Orders> orders;
+This results in just one query for both the Customer and their Orders:
+
+Hibernate: 
+    select ...
+    from
+        customer customer0_ 
+    left outer join
+        order order1 
+            on customer.id=order.customer_id 
+    where
+        customer.id=?
+        
+FetchMode.SUBSELECT
+Because the orders property is a collection, we could also use FetchMode.SUBSELECT:
+
+@OneToMany
+@Fetch(FetchMode.SUBSELECT)
+private Set<Orders> orders;
+We can only use SUBSELECT with collections.
+
+With this setup, we go back to one query for the Customer:
+
+Hibernate: 
+    select ...
+    from customer customer0_
+And one query for the Orders, using a sub-select this time:
+
+Hibernate: 
+    select ...
+    from
+        order order0_ 
+    where
+        order0_.customer_id in (
+            select
+                customer0_.id 
+            from
+                customer customer0_        
+FetchMode vs. FetchType
+In general, FetchMode defines how Hibernate will fetch the data (by select, join or subselect). FetchType, on the other hand, defines whether Hibernate will load data eagerly or lazily.
+
+The exact rules between these two are as follows:
+
+if the code doesn't set FetchMode, the default one is JOIN and FetchType works as defined
+with FetchMode.SELECT or FetchMode.SUBSELECT set, FetchType also works as defined
+with FetchMode.JOIN set, FetchType is ignored and a query is always eager        
+------------------------
+
+ 	@ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "Employee_Project", 
+        joinColumns = { @JoinColumn(name = "employee_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "project_id") }
+    )
+    Set<Project> projects = new HashSet<>();
+    
+    
+    @ManyToMany(mappedBy = "projects")
+    private Set<Employee> employees = new HashSet<>();
+--------------------------
+
+Implementing With a Shared Primary Key in JPA
+Notice that our definitions change only slightly:
+
+@Entity
+@Table(name = "users")
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    private Long id;
+
+    //...
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private Address address;
+
+    //... getters and setters
+}
+@Entity
+@Table(name = "address")
+public class Address {
+
+    @Id
+    @Column(name = "user_id")
+    private Long id;
+
+    //...
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
+    private User user;
+   
+    //... getters and setters
+}
+
+---------------------------
+    

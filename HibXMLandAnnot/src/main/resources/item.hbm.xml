@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.rag.hib.Item" table="item">
+		<id name="itemId">
+			<generator class="identity"></generator>
+		</id>
+
+		<property name="itemName"></property>
+		<property name="itemCost"></property>
+		<many-to-one name="customer" class="net.rag.hib.Customer" cascade="all"></many-to-one> 
+	</class>
+
+</hibernate-mapping>  

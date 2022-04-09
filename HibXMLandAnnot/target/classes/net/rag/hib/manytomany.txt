@@ -1,0 +1,47 @@
+
+-------------------------------------------------------------------------
+Student.java
+	@ManyToMany(cascade = CascadeType.ALL)
+	Set<Course> courses= new HashSet<>();
+	
+Course.java	
+	@ManyToMany(cascade = CascadeType.ALL)
+	Set<Student> students = new HashSet<>();
+	
+student_course link table created ..
+course_student link table also created.
+
+to solve this 
+set this in Student.java
+	@ManyToMany(mappedBy = "students", cascade = CascadeType.ALL)
+	Set<Course> courses= new HashSet<>();
+now if we save Course(owning side) course_student link table is created
+if we set mappedBy "courses" in Course.java
+student_course link table is created  	
+
+-----------------------------------------
+many to many with @jointable
+
+Student
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="stud_course", joinColumns = @JoinColumn(name="studId"), inverseJoinColumns = @JoinColumn(name="courseId"))
+	Set<Course> courses= new HashSet<>();
+Course
+	@ManyToMany(mappedBy = "courses", cascade = CascadeType.ALL)
+	Set<Student> students = new HashSet<>();
+	
+this is saving student, course and stud_course tables if we are saving 
+from the owning side i.e save(student);
+
+if we are setting students to course and save(courses) it is not saving the link table 
+for that we need to change 
+
+Course.java
+	@ManyToMany( cascade = CascadeType.ALL)
+	@JoinTable(name="stud_course", joinColumns = @JoinColumn(name="courseId"), inverseJoinColumns = @JoinColumn(name="studId"))
+	Set<Student> students = new HashSet<>();
+saving works for save(course) also
+	
+---------------------------------------------------------------------------	
+many to many with Composite key
+

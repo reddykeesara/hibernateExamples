@@ -1,0 +1,122 @@
+@Entity
+@Id
+@GeneratedValue(strategy=GenerationType.AUTO)
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+@Entity
+public class User {
+    @Id
+    @GeneratedValue(generator = "sequence-generator")
+    @GenericGenerator(
+      name = "sequence-generator",
+      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+      parameters = {
+        @Parameter(name = "sequence_name", value = "user_sequence"),
+        @Parameter(name = "initial_value", value = "4"),
+        @Parameter(name = "increment_size", value = "1")
+        }
+    )
+    private long userId;
+    // ...
+}
+    
+@Entity
+public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.TABLE, 
+      generator = "table-generator")
+    @TableGenerator(name = "table-generator", 
+      table = "dep_ids", 
+      pkColumnName = "seq_id", 
+      valueColumnName = "seq_value")
+    private long depId;
+
+    // ...
+}
+
+
+@Id
+@GeneratedValue(generator = "prod-generator")
+@GenericGenerator(name = "prod-generator", 
+  parameters = @Parameter(name = "prefix", value = "prod"), 
+  strategy = "com.baeldung.hibernate.pojo.generator.MyGenerator")
+  
+--------------------------------------------------------------------------------
+//composite key
+
+Composite Identifiers
+Besides the simple identifiers we've seen so far, Hibernate also allows us to define composite identifiers.
+
+A composite id is represented by a primary key class with one or more persistent attributes.
+
+The primary key class must fulfill several conditions:
+
+It should be defined using @EmbeddedId or @IdClass annotations.
+It should be public, serializable and have a public no-arg constructor.
+Finally, it should implement equals() and hashCode() methods.
+The class's attributes can be basic, composite or ManyToOne, while avoiding collections and OneToOne attributes.
+    
+@Embeddable
+public class OrderEntryPK implements Serializable {
+
+    private long orderId;
+    private long productId;
+
+    // standard constructor, getters, setters
+    // equals() and hashCode() 
+}
+      
+@Entity
+public class OrderEntry {
+
+    @EmbeddedId
+    private OrderEntryPK entryId;
+
+    // ...
+}
+
+@Entity
+@IdClass(OrderEntryPK.class)
+public class OrderEntry {
+    @Id
+    private long orderId;
+    @Id
+    private long productId;
+    
+    // ...
+}
+
+------------------------
+@IdClass
+The @IdClass annotation is similar to the @EmbeddedId. The difference with @IdClass is that the attributes are defined in the main entity class using @Id for each one. The primary key class will look the same as before.
+
+Let's rewrite the OrderEntry example with an @IdClass:
+
+@Entity
+@IdClass(OrderEntryPK.class)
+public class OrderEntry {
+    @Id
+    private long orderId;
+    @Id
+    private long productId;
+    
+    // ...
+}
+Then we can set the id values directly on the OrderEntry object:
+
+@Test
+public void whenSaveIdClassEntity_thenOk() {        
+    OrderEntry entry = new OrderEntry();
+    entry.setOrderId(1L);
+    entry.setProductId(30L);
+    session.save(entry);
+
+    assertThat(entry.getOrderId()).isEqualTo(1L);
+}
+Note that for both types of composite ids, the primary key class can also contain @ManyToOne attributes.
+Hibernate also allows defining primary keys made up of @ManyToOne associations combined with @Id annotation. 
+In this case, the entity class should also fulfill the conditions of a primary key class.
+However, the disadvantage of this method is that there's no separation between the entity 
+object and the identifier.
+-----------------
+          

@@ -1,0 +1,126 @@
+ONE TO ONE in 3 ways
+1. using a foreign key (empl table contains an extra column empldtlID which is fk to emplDtl)
+2. using a shared primary key (instead of a new column.. pk of emplDtl is marked as fk to empl)
+3. modelling with a join table
+------------------
+1. using a foreign key
+
+here an extra column is created in empl table
+which is a fk to emplDetl pk
+empl_table
+	empl_id
+	empl_detl_id fk
+emplDetl_table
+	empl_detl_id
+
+	
+
+Empl.java
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	int empId;
+	String name;
+	
+	@OneToOne( cascade = CascadeType.ALL)
+	@JoinColumn(name="detId", referencedColumnName = "emplDtlId")
+	EmplDetl emplDetl;
+
+EmplDetl.java
+	@Id
+	@Column(name = "emplDtlId")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	int id;
+	
+    @OneToOne(mappedBy = "emplDetl")
+	Empl empl;
+	
+	set empl and save emp
+-------------------------------
+2. using a shared primary key 
+(bi directional)
+instead of creating a new column emplDetl_id we'll mark ther primany key column 
+emp_id of the empl table as the foreign key to the empl table
+
+empl_table
+	empl_id pk
+emplDetl_table
+    emplDetl_id pk
+    
+Empl.java
+	@OneToOne(mappedBy = "empl", cascade = CascadeType.ALL)
+	@PrimaryKeyJoinColumn
+	EmplDetl emplDetl;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "empId")
+	Empl empl;
+	
+	saving successfully when
+	emp is added to emplDetl  
+	save(empDetl)
+	
+	here we need to set emp to empldtl and empldtl back to emp and save emp
+		ed.setEmpl(empl);
+		empl.setEmplDetl(ed);
+		saveItem(empl);
+----------------------
+3. One to one relationships are optional and mandatory
+The one to one mapping above is mandatory relationship
+lets imagine employees get associated with a workstation. its one to one but 
+sometimes an employee might not have a workstation and vice versa
+??The strategies we discussed until now force us to put null values in the column
+to handle optional relationships??
+typically we think of many to many relationships when we consider a join table, but using a join
+table in this case can help us to eliminate these null values
+DB
+Employee
+ 	empl_id
+ 	name
+emp-workstation
+	emp_id
+	workstn_id
+workstation
+	workstn_id
+	workstn_no
+	floor
+
+Empl.java
+	@oneToOne(cascade=CascadeType.ALL)
+	@JoinTable(name="emp_workstn", joinColumns={@JoinColumn(name="emplId, referencedColumnName="emplID")},
+	              inversejoinColumns={@JoinColumn(name="workstn_id", referencedColunnName="workstnId")})
+    private Workstation workstation;
+  
+Workstation.java
+	@oneToOne(mappedBy="workstation")
+	Private Employee employee
+
+------------OBSELETE//ignore-------------
+basic uni-directional one to one
+ insertion and fetching working with following annotations
+
+by inserting empldetl obj
+by fetching empldetl obj 
+by using  @JoinColumn(name = "empId") it is nameing the column with empId
+else naming empl_emplId
+
+even though cascade is not set it is inserting and fetching parent child
+
+
+@Entity
+@Table(name="emplDetl")
+public class EmplDetl {
+
+	@Id
+	//@Column(name="empDtlId")
+	int id;
+	
+	String tech;
+	String city;
+	int sal;
+	
+    @OneToOne    ///(cascade=CascadeType.ALL)
+    @MapsId
+    @JoinColumn(name = "empId")
+	Empl empl;
+--------------------------------------------------------------------------

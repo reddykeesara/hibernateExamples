@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="net.rag.hib.User" table="user">
+        <id name="userId" >
+            <generator class="native"></generator>
+        </id>
+        <property name="username" />
+        <property name="password" />
+        <property name="email" />
+         
+        <set name="groups" table="user_grp"  >
+            <key column="userId"/>
+            <many-to-many column="groupId" class="net.rag.hib.Group" />
+        </set>
+    </class> 
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.rag.hib.Student" table="student">
+		<id name="studId">
+			<generator class="native"></generator>
+		</id>
+
+		<property name="studName"></property>
+		<property name="city"></property>		
+		<many-to-one name="department" class="net.rag.hib.Department" cascade="all">
+			<column name="deptId"  not-null="true" />
+		</many-to-one> 
+	</class>
+
+</hibernate-mapping>  

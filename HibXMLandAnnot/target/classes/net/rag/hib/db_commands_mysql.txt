@@ -1,0 +1,40 @@
+SELECT SCHEMA_NAME FROM information_schema.SCHEMATA;
+drop database database_name;
+create database database_name;
+use database_name;
+ create table user(id integer PRIMARY KEY, userName varchar(20), password varchar(100), role varchar(20));
+ insert into user values(1,'raghu','$2a$12$JB.RPAUeAu5pqwWVMOrvP.QRaZLI/Miq9fnbNKlanqjOHRFB7iMty','USER');
+show tables;
+show columns from table_name;
+describe table table_name;
+drop table table_name;
+
+-----------------------------
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+creates indexes.. can be viewed by below query
+
+SELECT DISTINCT INDEX_NAME
+FROM information_schema.STATISTICS
+WHERE (TABLE_SCHEMA = '<database_name>')
+-------------------------------
+SELECT ROUTINE_NAME
+FROM information_schema.ROUTINES
+WHERE (ROUTINE_TYPE = 'FUNCTION') AND (ROUTINE_SCHEMA = '<database_name>');
+alternate to above
+SHOW FUNCTION STATUS WHERE DB = 'world';
+
+
+
+SELECT ROUTINE_NAME
+FROM information_schema.ROUTINES
+WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = '<database_name>';
+alternative to above
+
+SHOW PROCEDURE STATUS WHERE DB = 'world';
+
+SELECT SPECIFIC_NAME ,ROUTINE_TYPE ,PARAMETER_NAME
+FROM information_schema.PARAMETERS
+WHERE SPECIFIC_SCHEMA = '<database_name>';
+
+SHOW TRIGGERS;
+

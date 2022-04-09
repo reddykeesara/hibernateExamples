@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="net.rag.hib.Department" table="department">
+		<id name="deptId">
+			<generator class="native"></generator>
+		</id>
+		<property name="deptName"></property>
+		<set name="students" table="student" inverse="true" cascade="save-update" lazy="true" fetch="select">
+			<key>
+				<column name="deptId" not-null="true"></column>
+			</key>
+			<one-to-many class="net.rag.hib.Student" />
+		</set>
+	</class>
+</hibernate-mapping>  
