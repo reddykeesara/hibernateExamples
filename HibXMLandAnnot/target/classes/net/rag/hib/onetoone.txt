@@ -38,7 +38,7 @@ EmplDetl.java
 -------------------------------
 2. using a shared primary key 
 (bi directional)
-instead of creating a new column emplDetl_id we'll mark ther primany key column 
+instead of creating a new column emplDetl_id we'll mark the primany key column 
 emp_id of the empl table as the foreign key to the empl table
 
 empl_table

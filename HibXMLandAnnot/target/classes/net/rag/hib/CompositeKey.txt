@@ -1,47 +1,4 @@
-@Entity
-@Id
-@GeneratedValue(strategy=GenerationType.AUTO)
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-
-@Entity
-public class User {
-    @Id
-    @GeneratedValue(generator = "sequence-generator")
-    @GenericGenerator(
-      name = "sequence-generator",
-      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-      parameters = {
-        @Parameter(name = "sequence_name", value = "user_sequence"),
-        @Parameter(name = "initial_value", value = "4"),
-        @Parameter(name = "increment_size", value = "1")
-        }
-    )
-    private long userId;
-    // ...
-}
-    
-@Entity
-public class Department {
-    @Id
-    @GeneratedValue(strategy = GenerationType.TABLE, 
-      generator = "table-generator")
-    @TableGenerator(name = "table-generator", 
-      table = "dep_ids", 
-      pkColumnName = "seq_id", 
-      valueColumnName = "seq_value")
-    private long depId;
-
-    // ...
-}
-
-
-@Id
-@GeneratedValue(generator = "prod-generator")
-@GenericGenerator(name = "prod-generator", 
-  parameters = @Parameter(name = "prefix", value = "prod"), 
-  strategy = "com.baeldung.hibernate.pojo.generator.MyGenerator")
-  
---------------------------------------------------------------------------------
+--------------------
 //composite key
 
 Composite Identifiers

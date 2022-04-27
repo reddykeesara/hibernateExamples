@@ -6,35 +6,23 @@
 <hibernate-configuration>
 
 	<session-factory>
-<!-- 		<property name="hbm2ddl.auto">create</property>
- -->		<property name="show_sql">true</property>
+ 		<property name="hbm2ddl.auto">create</property>
+		<property name="show_sql">true</property>
 		<property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
 		<property name="connection.url">jdbc:mysql://localhost:3306/rag</property>
 		<property name="connection.username">root</property>
 		<property name="connection.password">root</property>
 		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-<!-- 		
-		<mapping class="net.rag.hib.model.Project"></mapping>
-		<mapping class="net.rag.hib.model.EmplDetl"></mapping>
-		<mapping class="net.rag.hib.model.Workstation"></mapping>
-
- 		<mapping resource="employee.hbm.xml" />
-		<mapping resource="customer.hbm.xml" />
-		<mapping resource="item.hbm.xml" />
-		<mapping resource="department.hbm.xml" />
-		<mapping resource="student.hbm.xml" />
-		<mapping resource="project.hbm.xml" />
-		<mapping resource="user.hbm.xml" />
-		<mapping resource="group.hbm.xml" /> -->
-		
-		<mapping class="net.rag.hib.model.Empl"></mapping>
-		<mapping class="net.rag.hib.model.EmplDetl"></mapping>
-				<mapping class="net.rag.hib.model.Cart"></mapping>
-		<mapping class="net.rag.hib.model.Item"></mapping> 
-<!-- 	<mapping class="net.rag.hib.model.Workstation"></mapping> -->		
- 		<mapping class="net.rag.hib.model.Student"></mapping>
-		<mapping class="net.rag.hib.model.Course"></mapping>
-		<mapping class="net.rag.hib.model.CourseRating"></mapping>	
+		<mapping class="net.rag.hib.model.inherit.Person"></mapping>
+		<mapping class="net.rag.hib.model.inherit.MyEmployee"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Book"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Pen"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Stationery"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Car"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Bus"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Vehicle"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Animal"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Pet"></mapping>
 	</session-factory>
 
 </hibernate-configuration> 
