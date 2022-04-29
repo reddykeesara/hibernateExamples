@@ -34,7 +34,7 @@ EmplDetl.java
     @OneToOne(mappedBy = "emplDetl")
 	Empl empl;
 	
-	set empl and save emp
+	set empdetl and save empl
 -------------------------------
 2. using a shared primary key 
 (bi directional)
@@ -50,7 +50,8 @@ Empl.java
 	@OneToOne(mappedBy = "empl", cascade = CascadeType.ALL)
 	@PrimaryKeyJoinColumn
 	EmplDetl emplDetl;
-
+	
+EmplDetail.java
     @OneToOne
     @MapsId
     @JoinColumn(name = "empId")

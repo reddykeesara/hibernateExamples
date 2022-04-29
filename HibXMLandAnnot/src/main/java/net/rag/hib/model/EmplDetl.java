@@ -24,7 +24,7 @@ public class EmplDetl {
 
 	@Id
 	@Column(name = "emplDtlId")
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	//@GeneratedValue(generator = "newGenerator")
 	//@GenericGenerator(name="newGenerator", strategy ="foreign", parameters={@Parameter=(value="empl", name="property")})
 	//@GenericGenerator(name="newGenerator", strategy="foreign", parameters={@Parameter(value="empl", name="property")})
@@ -34,16 +34,30 @@ public class EmplDetl {
 	String city;
 	int sal;
 	
-    @OneToOne(mappedBy = "emplDetl")
+	// ONE TO ONE FOREIGN KEY
+    //@OneToOne
+    //@JoinColumn(name="emplDtlId", referencedColumnName = "empId")
+	
+	//SHARED PRIMARY KEY
+	@OneToOne
+    @MapsId
+    @JoinColumn(name = "empId")
 	Empl empl;
 	
 
-//	public int getId() {
-//		return id;
-//	}
-//	public void setId(int id) {
-//		this.id = id;
-//	}
+	public EmplDetl(int id, String tech, String city, int sal) {
+		super();
+		this.id = id;
+		this.tech = tech;
+		this.city = city;
+		this.sal = sal;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getTech() {
 		return tech;
 	}

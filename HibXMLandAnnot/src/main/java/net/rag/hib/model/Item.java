@@ -15,14 +15,22 @@ import javax.persistence.Table;
 public class Item {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int itemId;
 	String itemName;
 	int itemCost;
 
 	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="cartId", nullable = false)
-	Cart cart;	
+	//@JoinColumn(name="cartId", nullable = false)
+	private Cart cart;	
+	
+	
+	
+	public Item(String itemName, int itemCost) {
+		super();
+		this.itemName = itemName;
+		this.itemCost = itemCost;
+	}
 	
 	public Cart getCart() {
 		return cart;

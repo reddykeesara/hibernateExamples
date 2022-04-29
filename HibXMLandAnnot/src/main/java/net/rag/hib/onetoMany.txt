@@ -1,4 +1,4 @@
-one to many
+one to many 
 ------------------------------------------------
 A cart has many items
 
@@ -66,24 +66,4 @@ Hibernate: update item set cardId=? where itemId=?
 Hibernate: update item set cardId=? where itemId=?
 ----------------------------------------------
 
-MANY TO ONE
 
--------------------------------------------------------------------------------
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name="cartId", nullable = false)
-	Cart cart;	
-
-		Cart cart1 = new Cart();
-		Cart cart2 = new Cart();
-		Item item1 = new Item();
-		item1.setCart(cart1);
-		Item item2 = new Item();
-		item2.setCart(cart2);
-		saveItem(item1);
-		saveItem(item2);
-Hibernate: insert into cart (cartId) values (?)
-Hibernate: insert into item (cartId, itemCost, itemName, itemId) values (?, ?, ?, ?)
-Hibernate: insert into cart (cartId) values (?)
-Hibernate: insert into item (cartId, itemCost, itemName, itemId) values (?, ?, ?, ?)
-
-------------------------------------------------------------------------------------------

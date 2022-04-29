@@ -96,101 +96,12 @@ public class AppWithAnn {
 	}
 }
 
-class ManyToOneAnnot {
-	public static void main(String[] args) {
-		Address add = new Address();
-		add.setCity("blore");
-		add.setZipCode(600000);
-
-		Order order = new Order();
-		order.setName("annn");
-		order.setAddress(add);
-
-		Order order2 = new Order();
-		order2.setName("parrr");
-		order2.setAddress(add);
-
-		add.addOrders(order);
-		add.addOrders(order2);
-		saveItem(add);
-		System.out.println("saved successfully ");
-
-		// saveItem(order);
-		// saveItem(order2);
-
-		// saveItem(student2);
-
-	}
-
-	public static <T> void saveItem(T item) {
-
-		SessionFactory factory = HibernateUtil.getInstnce();
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(item);
-		tx.commit();
-		session.close();
-	}
-}
+class ManyToOneAnnot {}
 
 class OneToOneAnn {
-	public static void main(String[] args) {
+	public static void main(String[] args) {}
 
-		// ONE TO ONE WITH A FOREIGN KEY
-		Empl empl = new Empl();
-		empl.setName("ragkkk");
-		
-		//Workstation ws = new Workstation();
-		//ws.setName("Delll");
-		//ws.setEmpl(empl);
-
-		EmplDetl ed = new EmplDetl();
-		ed.setCity("delhi");
-		ed.setSal(100000);
-		ed.setTech("ssql");
-
-		//ed.setEmpl(empl);
-		empl.setEmplDetl(ed);
-		saveItem(empl);
-
-		//empl.setEmplDetl(ed);
-		//empl.setWorkstation(ws);
-		//saveItem(empl);
-
-		// ONE TO ONE WITH A JOIN TABLE
-//		Workstation ws = new Workstation();
-//		ws.setName("Dell");
-//		empl.setWorkstation(ws);
-//		
-//		Workstation ws2 = new Workstation();
-//		ws2.setName("hp");
-//		//empl.setWorkstation(ws2);
-//		
-//		saveItem(empl);
-//		saveItem(ws2);
-
-		// fetch code
-//		 SessionFactory factory = HibernateUtil.getInstnce();
-//	        Session session = factory.openSession();
-//	        Transaction tx = session.beginTransaction();
-//	        Empl empl = (Empl) session.get(Empl.class,3);
-//	      System.out.println(empl.getEmplDetl().getTech());
-//	      empl.getEmplDetl().setTech("sqll");
-//	        tx.commit();
-//	        session.close();
-
-		System.out.println("saved Successfully");
-	}
-
-	public static <T> void saveItem(T item) {
-
-		SessionFactory factory = HibernateUtil.getInstnce();
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(item);
-		tx.commit();
-		session.close();
-	}
+	
 
 }
 
@@ -269,53 +180,7 @@ class ManytoManyAnn {
 
 }
 
-class oneToMany {
 
-	public static void main(String[] args) {
-		Cart cart1 = new Cart();
-		Cart cart2 = new Cart();
-
-		Item item1 = new Item();
-		item1.setCart(cart1);
-		Item item2 = new Item();
-		item2.setCart(cart2);
-		//Item item3 = new Item();
-		//item3.setCart(cart2);
-		
-		saveItem(item1);
-		saveItem(item2);
-
-		//cart1.addItem(item1);
-		//cart1.addItem(item2);
-		//saveItem(cart1);
-		
-
-
-		System.out.println("saved successfully");
-
-	}
-
-	public static <T> void saveItem(T item, T item2) {
-
-		SessionFactory factory = HibernateUtil.getInstnce();
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(item);
-		session.save(item2);
-		tx.commit();
-		session.close();
-	}
-
-	public static <T> void saveItem(T item) {
-
-		SessionFactory factory = HibernateUtil.getInstnce();
-		Session session = factory.openSession();
-		Transaction tx = session.beginTransaction();
-		session.save(item);
-		tx.commit();
-		session.close();
-	}
-}
 
 class Many2Many {
 	public static void main(String[] args) {

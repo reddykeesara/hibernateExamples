@@ -28,17 +28,20 @@ import javax.persistence.TemporalType;
 public class Empl {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int empId;
 	String name;
 //	String lastName;
 	//@Temporal(TemporalType.DATE)
-	LocalDateTime createdDate = LocalDateTime.now();
+	//LocalDateTime createdDate = LocalDateTime.now();
 	//@Temporal(TemporalType.TIME)
-	LocalDateTime updatedDate = LocalDateTime.now(Clock.systemUTC());
+	//LocalDateTime updatedDate = LocalDateTime.now(Clock.systemUTC());
 
-	@OneToOne( cascade = CascadeType.ALL)
-	@JoinColumn(name="detId", referencedColumnName = "emplDtlId")
+	//@OneToOne ( cascade = CascadeType.ALL)  							//ONE TO ONE WITH A FOREIGN KEY
+	//@JoinColumn(name="detId", referencedColumnName = "emplDtlId")  	//ONE TO ONE WITH A FOREIGN KEY
+	
+	@OneToOne (mappedBy = "empl", cascade = CascadeType.ALL)  							//ONE TO ONE WITH A SHARED PRIMARY KEY
+	@PrimaryKeyJoinColumn  												//ONE TO ONE WITH A SHARED PRIMARY KEY
 	EmplDetl emplDetl;
 
 	public EmplDetl getEmplDetl() {
@@ -50,18 +53,26 @@ public class Empl {
 	}
 	
 
-//	@OneToOne(cascade = CascadeType.ALL)
-//	@JoinTable(name = "empl_workstn", joinColumns = {
-//			@JoinColumn(name = "empId", referencedColumnName = "empId") }, inverseJoinColumns = {
-//					@JoinColumn(name = "workstnId", referencedColumnName = "workstnId") })
-//	Workstation workstation;
-//	public Workstation getWorkstation() {
-//		return workstation;
-//	}
-//
-//	public void setWorkstation(Workstation workstation) {
-//		this.workstation = workstation;
-//	}
+	
+	public Empl(int empId, String name) {
+		super();
+		this.empId = empId;
+		this.name = name;
+	}
+
+	/*	@OneToOne(cascade = CascadeType.ALL)
+		@JoinTable(name = "empl_workstn", joinColumns = {
+				@JoinColumn(name = "emp_Id", referencedColumnName = "empId") }, inverseJoinColumns = {
+						@JoinColumn(name = "workstn_Id", referencedColumnName = "workstnId") })
+		private Workstation workstation;
+		
+		public Workstation getWorkstation() {
+			return workstation;
+		}
+	
+		public void setWorkstation(Workstation workstation) {
+			this.workstation = workstation;
+		}*/
 
 	public int getEmpId() {
 		return empId;

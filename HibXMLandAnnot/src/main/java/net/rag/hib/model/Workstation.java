@@ -12,13 +12,20 @@ import javax.persistence.Table;
 public class Workstation {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	long workstnId;
 	
 	String name;
 	
 	@OneToOne(mappedBy = "workstation")
 	private Empl empl;
+
+	
+	public Workstation(long workstnId, String name) {
+		super();
+		this.workstnId = workstnId;
+		this.name = name;
+	}
 
 	public long getWorkstnId() {
 		return workstnId;

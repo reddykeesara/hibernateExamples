@@ -17,22 +17,24 @@ import javax.persistence.Table;
 public class Cart {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	long cartId;
 	
-	//@OneToMany(cascade = CascadeType.ALL)
-	//@JoinColumn(name="cardId")
-	//Set<Item> items = new HashSet<Item>();
-//	public Set<Item> getItems() {
-//		return items;
-//	}
-//
-//	public void setItems(Set<Item> items) {
-//		this.items = items;
-//	}
-//	public void addItem(Item item) {
-//		items.add(item);
-//	}
+	@OneToMany(mappedBy = "cart")
+	//@JoinColumn(name = "cartId")
+	Set<Item> items = new HashSet<Item>();
+
+	public Set<Item> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<Item> items) {
+		this.items = items;
+	}
+
+	public void addItem(Item item) {
+		items.add(item);
+	}
 
 	public long getCartId() {
 		return cartId;

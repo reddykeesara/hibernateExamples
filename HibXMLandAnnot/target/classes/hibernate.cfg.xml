@@ -13,7 +13,11 @@
 		<property name="connection.username">root</property>
 		<property name="connection.password">root</property>
 		<property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
-		<mapping class="net.rag.hib.model.inherit.Person"></mapping>
+		<mapping class="net.rag.hib.model.Address"></mapping>
+		<mapping class="net.rag.hib.model.Order"></mapping>
+<!-- 		<mapping class="net.rag.hib.model.Workstation"></mapping>
+ -->		
+<!-- 		<mapping class="net.rag.hib.model.inherit.Person"></mapping>
 		<mapping class="net.rag.hib.model.inherit.MyEmployee"></mapping>
 		<mapping class="net.rag.hib.model.inherit.Book"></mapping>
 		<mapping class="net.rag.hib.model.inherit.Pen"></mapping>
@@ -22,7 +26,7 @@
 		<mapping class="net.rag.hib.model.inherit.Bus"></mapping>
 		<mapping class="net.rag.hib.model.inherit.Vehicle"></mapping>
 		<mapping class="net.rag.hib.model.inherit.Animal"></mapping>
-		<mapping class="net.rag.hib.model.inherit.Pet"></mapping>
+		<mapping class="net.rag.hib.model.inherit.Pet"></mapping> -->
 	</session-factory>
 
 </hibernate-configuration> 
