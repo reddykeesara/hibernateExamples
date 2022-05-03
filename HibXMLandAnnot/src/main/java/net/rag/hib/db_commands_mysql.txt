@@ -7,9 +7,23 @@ use database_name;
 show tables;
 show columns from table_name;
 describe table table_name;
+show create table table_name;
 drop table table_name;
 
 -----------------------------
+create table EmployeeInfo (EmpID integer PRIMARY KEY,EmpFname varchar(50),EmpLname varchar(50),Department varchar(50),	Project varchar(50),Address varchar(50),DOB DATE,Gender CHAR(1));
+create table EmployeePosition(EmpID int,EmpPosition varchar(20), DateOfJoining date, Salary int,foreign key(EmpID) references EmployeeInfo(EmpID) on delete cascade);
+insert into EmployeeInfo values(1,'Sanjay', 'Mehra','HR','P1','Hyderabad(HYD)','1976-12-01','M');
+insert into EmployeeInfo values(2,'Ananya', 'Mishra', 'Admin','P2','Delhi(DEL)','1968-05-02','F');
+insert into EmployeeInfo values(3,'Rohan','Diwan','Account','P3','Mumbai(BOM)','1980-01-01','M');
+insert into EmployeeInfo values(4,'Sonia','Kulkarni','HR','P1','Hyderabad(HYD)','1992-05-02','F');
+insert into EmployeeInfo values(5,'Ankit','Kapoor','Admin','P2','Delhi(DEL)','1994-07-03','M');
+insert into EmployeePosition values(1, 'Manager', '2022-05-01',500000);
+insert into EmployeePosition values(2, 'Executive','2022-05-02',75000);
+insert into EmployeePosition values(3, 'Manager', '2022-05-01', 90000);
+insert into EmployeePosition values(2, 'Lead', '2022-05-02', 85000);
+insert into EmployeePosition values(1, 'Executive', '2022-05-01', 300000);
+--------------
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 creates indexes.. can be viewed by below query
 
